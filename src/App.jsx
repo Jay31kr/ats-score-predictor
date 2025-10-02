@@ -1,14 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+import UploadForm from './components/UploadForm/UploadForm'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
     <>
-     <h1 className='text-amber-800'>hello world</h1>
+     <div className='bg-gray-400 min-h-screen w-full flex items-center justify-center'>
+      <UploadForm/>
+      </div>
     </>
   )
 }
