@@ -30,7 +30,7 @@ function UploadForm(){
 
   setLoading(true);
   try {
-    const response = await fetch('http://localhost:5000/score', {
+    const response = await fetch('https://atsscorebackend.onrender.com/score', {
       method: 'POST',
       body: formData,
     });
