@@ -5,6 +5,9 @@ function UploadForm(){
 
     const [jobDescription , setJobDesc] =useState(null);
     const [resumeFile, setResumeFile] = useState(null);
+    const [score, setScore] = useState(null);
+    const [loading, setLoading] = useState(false);
+
 
     const handleChangeJob=(e)=>{
         setJobDesc(e.target.value);
@@ -16,6 +19,31 @@ function UploadForm(){
             setResumeFile(file);
         }
     }
+
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!resumeFile || !jobDescription) return;
+
+  const formData = new FormData();
+  formData.append('resume', resumeFile);
+  formData.append('jobDescription', jobDescription);
+
+  setLoading(true);
+  try {
+    const response = await fetch('http://localhost:5000/score', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+    setScore(data.score);
+  } catch (error) {
+    console.error('Error:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
   return (
     <>
         <div className="w-[30%] h-[40%] p-4 bg-white border-amber-50 rounded-xl">
@@ -54,11 +82,19 @@ function UploadForm(){
             <div className='flex justify-center'>
                 <button
                 type="submit"
+                onClick={handleSubmit}
                 className="w-[40%] bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition duration-300"
                 >
-                Predict Score
+                 {loading ? 'Scoring...' : 'Predict Score'}
+
                 </button>
             </div>
+            {score !== null && (
+             <p className="mt-4 text-lg text-green-600 font-semibold text-center">
+              ATS Match Score: {score}%
+                </p>
+            )}
+
             
         </div>
     </>
